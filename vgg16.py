@@ -41,6 +41,7 @@ val_dataloader = torch.utils.data.DataLoader(val_datasets, batch_size=batch_size
 class VGGNet(nn.Module):
     def __init__(self, num_classes=2):
         super(VGGNet, self).__init__()
+        
         net = models.vgg16(pretrained=True)
         net.classifier = nn.Sequential()
         self.features = net
@@ -69,11 +70,11 @@ params = [{'params': md.parameters()} for md in model.children()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 loss_func = nn.CrossEntropyLoss()
 
-# Loss_list = []
-# Accuracy_list = []
-# from torchsummary import summary
-# net = models.vgg16(pretrained=True)
-# summary(net, (3, 224, 224))
+Loss_list = []
+Accuracy_list = []
+from torchsummary import summary
+net = models.vgg16(pretrained=True).features
+summary(net, (3, 224, 224))
 
 
 # for epoch in range(100):

@@ -1,6 +1,6 @@
 pytorch优化器
 1.构建优化器
-要构建一个Optimizer,你必须给它一个包含参数(必须都是Variable对象)进行优化，然后，您可以
+要构建一个Optimizer,你必须给它一个包含参数(必须都是Variable对象)进行优化，然后
 optimizer的参数选项，比如学习率，权重衰减。具体参考torch.optim中文文档
 ```
 optimizer = optim.SGD(model.parameters(),lr = 0.01,momentum = 0.9)
