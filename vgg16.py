@@ -41,14 +41,21 @@ val_dataloader = torch.utils.data.DataLoader(val_datasets, batch_size=batch_size
 class VGGNet(nn.Module):
     def __init__(self, num_classes=2):
         super(VGGNet, self).__init__()
-        
+        # 加载vgg16的模型参数和网络结构
         net = models.vgg16(pretrained=True)
+        # 设定网络的分类器
         net.classifier = nn.Sequential()
+        # 网络的特征层
         self.features = net
+        # 网络的分类器自己重新设定好
         self.classifier = nn.Sequential(
+                # 线性变换层的参数设置
                 nn.Linear(512 * 7 * 7, 512),
+                # inplace为True，将会改变输入的数据 ，否则不会改变原输入，只会产生新的输出
                 nn.ReLU(True),
+                # 随机丢弃一些特征值
                 nn.Dropout(),
+
                 nn.Linear(512, 128),
                 nn.ReLU(True),
                 nn.Dropout(),
@@ -68,6 +75,7 @@ if torch.cuda.is_available():
 params = [{'params': md.parameters()} for md in model.children()
           if md in [model.classifier]]
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
 loss_func = nn.CrossEntropyLoss()
 
 Loss_list = []
