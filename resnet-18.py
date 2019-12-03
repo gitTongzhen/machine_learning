@@ -29,13 +29,13 @@ val_transforms = transforms.Compose([
 ])
 
 
-#train_dir = 'D:\\Desktop\\workspace\\github\\machine_learning\\machine_learning\\VGGDataSet\\train'
+# train_dir = 'D:\\Desktop\\workspace\\github\\machine_learning\\machine_learning\\VGGDataSet\\train'
 train_dir = '/docker_gpu/tf_mtcnn/test/VGGDataSet/train'
 train_datasets = datasets.ImageFolder(train_dir, transform=train_transforms)
 print(type(train_datasets))
 train_dataloader = torch.utils.data.DataLoader(train_datasets, batch_size=batch_size, shuffle=True)
 
-#val_dir = 'D:\\Desktop\\workspace\\github\\machine_learning\\machine_learning\\VGGDataSet\\val'
+# val_dir = 'D:\\Desktop\\workspace\\github\\machine_learning\\machine_learning\\VGGDataSet\\val'
 val_dir = '/docker_gpu/tf_mtcnn/test/VGGDataSet/val'
 val_datasets = datasets.ImageFolder(val_dir, transform=val_transforms)
 print(len(val_datasets.imgs))
@@ -54,7 +54,7 @@ class VGGNet(nn.Module):
         # 网络的分类器自己重新设定好
         self.classifier = nn.Sequential(
                 # 线性变换层的参数设置
-                nn.Linear(512 * 7 * 7, 512),
+                nn.Linear(1000, 512),
                 # inplace为True，将会改变输入的数据 ，否则不会改变原输入，只会产生新的输出
                 nn.ReLU(True),
                 # 随机丢弃一些特征值
@@ -85,8 +85,8 @@ loss_func = nn.CrossEntropyLoss()
 
 Loss_list = []
 Accuracy_list = []
-# from torchsummary import summary
-# net = models.vgg16(pretrained=True).features
+from torchsummary import summary
+# net = models.resnet18(pretrained=True)
 # summary(net, (3, 224, 224))
 
 
@@ -158,5 +158,3 @@ plt.xlabel('Test loss vs. epoches')
 plt.ylabel('Test loss')
 plt.show()
 plt.savefig("accuracy_loss.jpg")
-
-
